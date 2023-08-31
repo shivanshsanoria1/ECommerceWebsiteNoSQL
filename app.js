@@ -15,6 +15,7 @@ app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -30,12 +31,13 @@ app.use((req, res, next) => {
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+app.use(authRoutes);
 
 app.use(errorController.get404);
 
-const mongoDBClusterUser = process.env.mongoDBClusterUser;
-const mongoDBClusterPassword = process.env.mongoDBClusterPassword;
-const mongoDBDatabaseName = process.env.mongoDBDatabaseName;
+const mongoDBClusterUser = process.env.MONGODB_CLUSTER_USER;
+const mongoDBClusterPassword = process.env.MONGODB_CLUSTER_PASSWORD;
+const mongoDBDatabaseName = process.env.MONGODB_DATABASE_NAME;
 
 mongoose
 .connect(`mongodb+srv://${mongoDBClusterUser}:${mongoDBClusterPassword}@clustertest1.rlecsbt.mongodb.net/${mongoDBDatabaseName}?retryWrites=true&w=majority`)
